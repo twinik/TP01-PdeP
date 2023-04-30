@@ -75,6 +75,10 @@ conduceBienElectricidad sustancia =
   especieDeSustancia sustancia == "Metal" || especieDeSustancia sustancia == "Gas noble"
 
 {- Punto 3 -}
+nombreDeSustacia :: Sustancia -> String
+nombreDeSustacia (Elemento nombre _ _ _) = nombre
+nombreDeSustacia (Compuesto nombre _ _ _) = nombre
+
 dosVocales :: [String]
 dosVocales = ["ae", "ai", "ao", "au", "ea", "ei", "eo", "eu", "ia", "ie", "io", "iu", "ua", "ue", "ui", "uo"]
 
