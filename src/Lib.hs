@@ -26,7 +26,7 @@ data Componente = Componente
 hidrogeno :: Sustancia
 hidrogeno =
   Elemento
-    { nombre = "Hidrógeno",
+    { nombre = "Hidrogeno",
       simboloQuimico = "H",
       especie = "No metal",
       numeroAtomico = 1
@@ -35,7 +35,7 @@ hidrogeno =
 oxigeno :: Sustancia
 oxigeno =
   Elemento
-    { nombre = "Oxígeno",
+    { nombre = "Oxigeno",
       simboloQuimico = "O",
       especie = "No metal",
       numeroAtomico = 8
@@ -75,9 +75,9 @@ conduceBienElectricidad sustancia =
   especieDeSustancia sustancia == "Metal" || especieDeSustancia sustancia == "Gas noble"
 
 {- Punto 3 -}
-nombreDeSustacia :: Sustancia -> String
-nombreDeSustacia (Elemento nombre _ _ _) = nombre
-nombreDeSustacia (Compuesto nombre _ _ _) = nombre
+nombreDeSustancia :: Sustancia -> String
+nombreDeSustancia (Elemento nombre _ _ _) = nombre
+nombreDeSustancia (Compuesto nombre _ _ _) = nombre
 
 dosVocales :: [String]
 dosVocales = ["ae", "ai", "ao", "au", "ea", "ei", "eo", "eu", "ia", "ie", "io", "iu", "ua", "ue", "ui", "uo"]
@@ -89,5 +89,5 @@ nombreUnion elemento
   | otherwise = elemento ++ "uro"
 
 {- Punto 4 -}
-combinar :: String -> String -> String
-combinar sustancia1 sustancia2 = (nombreUnion sustancia1) ++ " de " ++ sustancia2
+combinar :: Sustancia -> Sustancia -> String
+combinar sustancia1 sustancia2 = (nombreUnion . nombreDeSustancia) sustancia1 ++ " de " ++ nombreDeSustancia sustancia2
