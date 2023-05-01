@@ -18,7 +18,7 @@ data Sustancia
 
 data Componente = Componente
   { sustancia :: Sustancia,
-    cantidad :: Int
+    cantidad :: String
   }
   deriving (Show)
 
@@ -47,7 +47,7 @@ agua =
     { nombre = "Agua",
       simboloQuimico = "H2O",
       especie = "No metal",
-      componentes = [Componente hidrogeno 2, Componente oxigeno 1]
+      componentes = [Componente hidrogeno "2", Componente oxigeno "1"]
     }
 
 {- Punto 2 -}
@@ -91,3 +91,42 @@ nombreUnion elemento
 {- Punto 4 -}
 combinar :: Sustancia -> Sustancia -> String
 combinar sustancia1 sustancia2 = (nombreUnion . nombreDeSustancia) sustancia1 ++ " de " ++ nombreDeSustancia sustancia2
+
+{- Punto 5 -}
+sustanciaComponente :: Componente -> Sustancia
+sustanciaComponente (Componente sustancia _) = sustancia
+
+obtenerSimboloQuimico :: Sustancia -> String
+obtenerSimboloQuimico (Elemento _ simbolo  _  _ ) = simbolo
+obtenerSimboloQuimico (Compuesto _ simbolo _  _ ) = simbolo
+
+mezclarSustancias :: Sustancia -> Sustancia -> Sustancia
+mezclarSustancias sustancia1 sustancia2 =
+  Compuesto
+    { nombre = combinar sustancia1 sustancia2,
+      simboloQuimico = (simboloQuimico sustancia1) ++ (simboloQuimico sustancia2),
+      especie = especieDeSustancia sustancia1,
+      componentes = [Componente sustancia1 "1", Componente sustancia2 "1"]
+    }
+
+combinarComponentes :: Componente -> Componente -> String
+combinarComponentes componente1 componente2 =  combinar (sustanciaComponente componente1) (sustanciaComponente componente2)
+
+obtenerSimboloQuimicoComponente :: Componente -> String
+obtenerSimboloQuimicoComponente componente = obtenerSimboloQuimico. sustanciaComponente $ componente
+
+cantidadComponente :: Componente -> String
+cantidadComponente (Componente _ cantidad)
+  |cantidad == "1" = ""
+  |otherwise = cantidad
+
+mezclarDosComponentes :: Componente -> Componente -> Sustancia
+mezclarDosComponentes componente1 componente2 = 
+  Compuesto 
+  { nombre         = (combinarComponentes componente1 componente2), 
+    simboloQuimico = (obtenerSimboloQuimicoComponente componente1) ++ (cantidadComponente componente1)  ++  (obtenerSimboloQuimicoComponente componente2) ++ (cantidadComponente componente2), 
+    especie        = "No Metal",
+    componentes    = [componente1, componente2]
+  }
+   
+{- Punto 6 -}
