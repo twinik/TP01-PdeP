@@ -130,3 +130,11 @@ mezclarDosComponentes componente1 componente2 =
   }
   
 {- Punto 6 -}
+
+formulaSustancia :: Sustancia -> String
+formulaSustancia (Elemento _ simboloQuimico _ _) = simboloQuimico
+formulaSustancia (Compuesto _ simboloQuimico _ _) = simboloQuimico
+
+
+
+formulaComponente Componente componente = (obtenerSimboloQuimicoComponente componente) ++ (cantidadComponente componente)
