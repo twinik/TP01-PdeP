@@ -18,7 +18,7 @@ data Sustancia
 
 data Componente = Componente
   { sustancia :: Sustancia,
-    cantidad :: String
+    cantidad :: Int
   }
   deriving (Show)
 
@@ -47,7 +47,7 @@ agua =
     { nombre = "Agua",
       simboloQuimico = "H2O",
       especie = "No metal",
-      componentes = [Componente hidrogeno "2", Componente oxigeno "1"]
+      componentes = [Componente hidrogeno 2, Componente oxigeno 1]
     }
 
 {- Punto 2 -}
@@ -106,7 +106,7 @@ mezclarSustancias sustancia1 sustancia2 =
     { nombre = combinar sustancia1 sustancia2,
       simboloQuimico = (simboloQuimico sustancia1) ++ (simboloQuimico sustancia2),
       especie = especieDeSustancia sustancia1,
-      componentes = [Componente sustancia1 "1", Componente sustancia2 "1"]
+      componentes = [Componente sustancia1 1, Componente sustancia2 1]
     }
 
 combinarComponentes :: Componente -> Componente -> String
@@ -117,8 +117,8 @@ obtenerSimboloQuimicoComponente componente = obtenerSimboloQuimico. sustanciaCom
 
 cantidadComponente :: Componente -> String
 cantidadComponente (Componente _ cantidad)
-  |cantidad == "1" = ""
-  |otherwise = cantidad
+  |cantidad == 1 = ""
+  |otherwise = show cantidad
 
 mezclarDosComponentes :: Componente -> Componente -> Sustancia
 mezclarDosComponentes componente1 componente2 = 
@@ -128,5 +128,5 @@ mezclarDosComponentes componente1 componente2 =
     especie        = "No Metal",
     componentes    = [componente1, componente2]
   }
-   
+  
 {- Punto 6 -}
