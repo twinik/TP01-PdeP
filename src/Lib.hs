@@ -105,26 +105,16 @@ mezclarDosComponentes componente1 componente2 =
   }
   
 {- Punto 6 -}
-
-formulaSustancia :: Sustancia -> String
-formulaSustancia (Elemento _ simboloQuimico _ _) = simboloQuimico
-formulaSustancia (Compuesto _ _ [componentes]) 
-  | all (\n -> esElemento n) [componentes . sustanciaComponente] = concat (map (formulaSustancia . sustanciaComponente) [componentes]) 
-
- {-
-obtenerSimboloQuimicoComponente :: Componente -> String
-obtenerSimboloQuimicoComponente componente = formulaSustancia (sustanciaComponente componente) ++ cantidadComponente
-
 cantidadComponente :: Componente -> String
 cantidadComponente (Componente _ cantidad)
   |cantidad == 1 = ""
   |otherwise = show cantidad
 
+formulaComponente :: Componente -> String
+formulaComponente componente
+  | (esElemento. sustanciaComponente) componente = (simboloQuimico . sustanciaComponente $ componente) ++ (cantidadComponente componente)
+  | otherwise = "(" ++ concat (map (formulaComponente) (componentes . sustanciaComponente $ componente)) ++ ")" ++ (cantidadComponente componente)
 
-
-
-formulaSustancia (Compuesto _ _ [componentes]) = 
-
-formulaComponente Componente componente = (obtenerSimboloQuimicoComponente componente) ++ (cantidadComponente componente)
-
--}
+formulaSustancia :: Sustancia -> String
+formulaSustancia (Elemento _ simboloQuimico _ _) = simboloQuimico
+formulaSustancia (Compuesto _ _ componentes) = concat (map (formulaComponente) componentes)
