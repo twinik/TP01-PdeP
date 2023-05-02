@@ -64,14 +64,6 @@ conduceBien sustancia
   | especieDeSustancia sustancia == "Halogeno" && (not . esElemento) sustancia = "Conduce bien calor"
   | otherwise = "No es buen conductor"
 
-conduceBienCalor :: Sustancia -> Bool
-conduceBienCalor sustancia =
-  especieDeSustancia sustancia == "Metal" || especieDeSustancia sustancia == "Halogeno"
-
-conduceBienElectricidad :: Sustancia -> Bool
-conduceBienElectricidad sustancia =
-  especieDeSustancia sustancia == "Metal" || especieDeSustancia sustancia == "Gas noble"
-
 {- Punto 3 -}
 nombreDeSustancia :: Sustancia -> String
 nombreDeSustancia (Elemento nombre _ _ _) = nombre
@@ -93,26 +85,27 @@ combinarSustancias sustancia1 sustancia2 = (nombreUnion . nombreDeSustancia) sus
 {- Punto 5 -}
 sustanciaComponente :: Componente -> Sustancia
 sustanciaComponente (Componente sustancia _) = sustancia
+
 combinarNombreComponentes :: Componente -> Componente -> String
-combinarNombreComponentes componente1 componente2 =  combinarSustancias (sustanciaComponente componente1) (sustanciaComponente componente2)
+combinarNombreComponentes componente1 componente2 = combinarSustancias (sustanciaComponente componente1) (sustanciaComponente componente2)
 
 mezclarDosComponentes :: Componente -> Componente -> Sustancia
-mezclarDosComponentes componente1 componente2 = 
-  Compuesto 
-  { nombre         = (combinarNombreComponentes componente1 componente2), 
-    especie        = "No Metal",
-    componentes    = [componente1, componente2]
-  }
-  
+mezclarDosComponentes componente1 componente2 =
+  Compuesto
+    { nombre = (combinarNombreComponentes componente1 componente2),
+      especie = "No Metal",
+      componentes = [componente1, componente2]
+    }
+
 {- Punto 6 -}
 cantidadComponente :: Componente -> String
 cantidadComponente (Componente _ cantidad)
-  |cantidad == 1 = ""
-  |otherwise = show cantidad
+  | cantidad == 1 = ""
+  | otherwise = show cantidad
 
 formulaComponente :: Componente -> String
 formulaComponente componente
-  | (esElemento. sustanciaComponente) componente = (simboloQuimico . sustanciaComponente $ componente) ++ (cantidadComponente componente)
+  | (esElemento . sustanciaComponente) componente = (simboloQuimico . sustanciaComponente $ componente) ++ (cantidadComponente componente)
   | otherwise = "(" ++ concat (map (formulaComponente) (componentes . sustanciaComponente $ componente)) ++ ")" ++ (cantidadComponente componente)
 
 formulaSustancia :: Sustancia -> String
