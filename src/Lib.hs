@@ -1,16 +1,18 @@
 {-# OPTIONS_GHC -Wno-missing-export-lists #-}
 {-# OPTIONS_GHC -fno-warn-partial-fields #-}
 
+data Especie = Metal | NoMetal | Halogeno | GasNoble deriving (Show)
+
 data Sustancia
   = Elemento
       { nombre :: String,
         simboloQuimico :: String,
-        especie :: String,
+        especie :: Especie,
         numeroAtomico :: Int
       }
   | Compuesto
       { nombre :: String,
-        especie :: String,
+        especie :: Especie,
         componentes :: [Componente]
       }
   deriving (Show)
@@ -27,7 +29,7 @@ hidrogeno =
   Elemento
     { nombre = "Hidrogeno",
       simboloQuimico = "H",
-      especie = "No metal",
+      especie = NoMetal,
       numeroAtomico = 1
     }
 
@@ -36,7 +38,7 @@ oxigeno =
   Elemento
     { nombre = "Oxigeno",
       simboloQuimico = "O",
-      especie = "No metal",
+      especie = NoMetal,
       numeroAtomico = 8
     }
 
@@ -44,25 +46,27 @@ agua :: Sustancia
 agua =
   Compuesto
     { nombre = "Agua",
-      especie = "No metal",
+      especie = NoMetal,
       componentes = [Componente hidrogeno 2, Componente oxigeno 1]
     }
 
 {- Punto 2 -}
-especieDeSustancia :: Sustancia -> String
+{- especieDeSustancia :: Sustancia -> String
 especieDeSustancia (Elemento _ _ especie _) = especie
-especieDeSustancia (Compuesto _ especie _) = especie
+especieDeSustancia (Compuesto _ especie _) = especie -}
 
 esElemento :: Sustancia -> Bool
 esElemento (Elemento {}) = True
 esElemento (Compuesto {}) = False
 
-conduceBien :: Sustancia -> String
+{- conduceBien :: Sustancia -> String
 conduceBien sustancia
   | especieDeSustancia sustancia == "Metal" = "Conduce bien calor y electricidad"
   | especieDeSustancia sustancia == "Gas noble" && esElemento sustancia = "Conduce bien electricidad"
   | especieDeSustancia sustancia == "Halogeno" && (not . esElemento) sustancia = "Conduce bien calor"
   | otherwise = "No es buen conductor"
+ -}
+-- conduceBien :: Sustancia -> String -> Bool
 
 {- Punto 3 -}
 nombreDeSustancia :: Sustancia -> String
@@ -93,7 +97,7 @@ mezclarDosComponentes :: Componente -> Componente -> Sustancia
 mezclarDosComponentes componente1 componente2 =
   Compuesto
     { nombre = (combinarNombreComponentes componente1 componente2),
-      especie = "No Metal",
+      especie = NoMetal,
       componentes = [componente1, componente2]
     }
 
